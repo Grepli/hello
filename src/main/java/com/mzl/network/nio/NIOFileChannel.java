@@ -29,8 +29,10 @@ public class NIOFileChannel {
             byteBuffer.flip();
             // 数组写入通道
             outputStreamChannel.write(byteBuffer);
+            // 清除数组 下次循环使用
             byteBuffer.clear();
         }
+        // 关闭流
         fileInputStream.close();
         fileOutputStream.close();
     }
