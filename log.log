@@ -1,0 +1,21 @@
+2022-12-11 14:40:48.619  INFO 21256 --- [main] com.mzl.network.NetworkApplication       : Starting NetworkApplication using Java 1.8.0_181 on DESKTOP-71M8UTL with PID 21256 (D:\network\target\classes started by lss in D:\network)
+2022-12-11 14:40:48.623  INFO 21256 --- [main] com.mzl.network.NetworkApplication       : No active profile set, falling back to 1 default profile: "default"
+2022-12-11 14:40:50.045  INFO 21256 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2022-12-11 14:40:50.049  INFO 21256 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-12-11 14:40:50.076  INFO 21256 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2022-12-11 14:40:50.258  WARN 21256 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.mzl.network]' package. Please check your configuration.
+2022-12-11 14:40:50.949  INFO 21256 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2022-12-11 14:40:50.950  INFO 21256 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-12-11 14:40:50.950  INFO 21256 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
+2022-12-11 14:40:51.128  INFO 21256 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-12-11 14:40:51.128  INFO 21256 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2414 ms
+2022-12-11 14:40:51.699  INFO 21256 --- [main] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2022-12-11 14:40:51.835  INFO 21256 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2022-12-11 14:40:52.328  INFO 21256 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2022-12-11 14:40:52.338  INFO 21256 --- [main] com.mzl.network.NetworkApplication       : Started NetworkApplication in 4.359 seconds (JVM running for 5.921)
+2022-12-11 14:40:55.753  INFO 21256 --- [http-nio-8090-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-12-11 14:40:55.753  INFO 21256 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-12-11 14:40:55.754  INFO 21256 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-12-11 14:40:55.785  INFO 21256 --- [http-nio-8090-exec-1] c.m.n.controller.NetWorkController       : he
+2022-12-11 14:41:39.765  WARN 21256 --- [http-nio-8090-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+2022-12-11 14:41:43.928  INFO 21256 --- [http-nio-8090-exec-3] c.m.n.controller.NetWorkController       : he
