@@ -25,7 +25,24 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("server receive ctx:{}", ctx);
+        // 耗费时间的业务->异步提交->提交该channel到对应的NioEventLoop中的taskQueue中
+        // 解决方案1. 用户程序自定义的普通任务
+        ctx.channel().eventLoop().execute(() -> {
+            try {
+                Thread.sleep(10 * 1000);
+                ctx.writeAndFlush(Unpooled.copiedBuffer("我做完了非常耗时的操作", CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                log.error(e.getMessage(), e);
+            }
+        });
+        ctx.channel().eventLoop().execute(() -> {
+            try {
+                Thread.sleep(20 * 1000);
+                ctx.writeAndFlush(Unpooled.copiedBuffer("我做完了非常耗时的操作2", CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                log.error(e.getMessage(), e);
+            }
+        });
         // 将msg转成ByteBuf
         ByteBuf byteBuf = (ByteBuf) msg;
         log.info("client:[{}] send Message is {}", ctx.channel().remoteAddress(), byteBuf.toString(CharsetUtil.UTF_8));
