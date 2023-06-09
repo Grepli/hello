@@ -8,6 +8,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 1.自定义handler，需要继承netty规定好的某个HandlerAdapter
  * 2. 这时我们的handler才能被netty处理
@@ -43,6 +45,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                 log.error(e.getMessage(), e);
             }
         });
+        ctx.channel().eventLoop().schedule(() -> {
+            try {
+                Thread.sleep(20 * 1000);
+                ctx.writeAndFlush(Unpooled.copiedBuffer("我做完了非常耗时的操作3", CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                log.error(e.getMessage(), e);
+            }
+        },5, TimeUnit.SECONDS);
         // 将msg转成ByteBuf
         ByteBuf byteBuf = (ByteBuf) msg;
         log.info("client:[{}] send Message is {}", ctx.channel().remoteAddress(), byteBuf.toString(CharsetUtil.UTF_8));

@@ -5,6 +5,8 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +42,7 @@ public class NettyServer {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline pipeline = socketChannel.pipeline();
+                            log.info("hashCode:{}",socketChannel.hashCode());
                             // handler加入到pipeline
                             pipeline.addLast(new NettyServerHandler());
                         }
@@ -47,6 +50,15 @@ public class NettyServer {
             log.info("server is running");
             // 绑定了一个端口  并且同步处理 生成了ChannelFuture
             ChannelFuture sync = serverBootstrap.bind(8090).sync();
+            // 判断有没有绑定成功 注册监听器
+            sync.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                    if (channelFuture.isSuccess()){
+                        log.info("端口绑定成功");
+                    }
+                }
+            });
             // 对关闭通道进行监听
             sync.channel().closeFuture().sync();
         } finally {
