@@ -19,6 +19,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+        log.info("当前消息类型:{}",ctx.getClass());
         // 判断msg是不是一个httpRequest请求
         if (msg instanceof HttpRequest) {
             log.info("pipeline is :{}---{}", ctx.pipeline().hashCode(), this.hashCode());
@@ -30,10 +31,12 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
                 log.info("请求了图标，不做处理");
                 return;
             }
+            log.info("-------------------------------");
             ByteBuf byteBuf = Unpooled.copiedBuffer("hello,我是服务器", StandardCharsets.UTF_8);
             DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, byteBuf);
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html");
             response.headers().set(HttpHeaderNames.CONTENT_LENGTH, byteBuf.readableBytes());
+            log.info("发送了一次信息");
             ctx.channel().writeAndFlush(response);
         }
     }

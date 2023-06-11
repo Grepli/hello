@@ -19,7 +19,13 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("channel is active:{}", ctx);
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello LiSi", CharsetUtil.UTF_8));
+        Thread.sleep(1000L);
+        ctx.writeAndFlush(Unpooled.copiedBuffer("hello", CharsetUtil.UTF_8));
+        log.info("写了一个hello");
+        Thread.sleep(2000L);
+        ctx.writeAndFlush(Unpooled.copiedBuffer("hi", CharsetUtil.UTF_8));
+        Thread.sleep(2000L);
+        ctx.writeAndFlush(Unpooled.copiedBuffer("?", CharsetUtil.UTF_8));
     }
 
     /**
@@ -31,7 +37,6 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("channel is read:{}", ctx);
         ByteBuf byteBuf = (ByteBuf) msg;
         log.info("channel message:{}", byteBuf.toString(CharsetUtil.UTF_8));
         log.info("channel remote address:{}", ctx.channel().remoteAddress());

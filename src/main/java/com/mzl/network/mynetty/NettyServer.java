@@ -25,7 +25,7 @@ public class NettyServer {
         // bossGroup 和workerGroup默认是CPU核数的2倍
         // 如果大于1  循环使用线程
         NioEventLoopGroup workerGroup = new NioEventLoopGroup(8);
-        // 创建服务器端启动对象--配置参数
+        // 创建服务器端启动对象--配置参 数
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         try {
             // 设置线程组
@@ -44,6 +44,7 @@ public class NettyServer {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             log.info("hashCode:{}",socketChannel.hashCode());
                             // handler加入到pipeline
+                            pipeline.addFirst(new ServerDecoder());
                             pipeline.addLast(new NettyServerHandler());
                         }
                     });

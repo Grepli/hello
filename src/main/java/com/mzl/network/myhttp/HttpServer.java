@@ -21,8 +21,6 @@ public class HttpServer {
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    // 该handler对应的是bossGroup
-                    .handler(null)
                     // 该handler对应的是workerGroup
                     .childHandler(new HttpServerInitialize());
             log.info("服务启动成功,开始绑定端口");

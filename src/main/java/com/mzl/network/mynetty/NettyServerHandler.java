@@ -8,6 +8,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,34 +28,15 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        // 耗费时间的业务->异步提交->提交该channel到对应的NioEventLoop中的taskQueue中
-        // 解决方案1. 用户程序自定义的普通任务
-        ctx.channel().eventLoop().execute(() -> {
-            try {
-                Thread.sleep(10 * 1000);
-                ctx.writeAndFlush(Unpooled.copiedBuffer("我做完了非常耗时的操作", CharsetUtil.UTF_8));
-            } catch (InterruptedException e) {
-                log.error(e.getMessage(), e);
-            }
-        });
-        ctx.channel().eventLoop().execute(() -> {
-            try {
-                Thread.sleep(20 * 1000);
-                ctx.writeAndFlush(Unpooled.copiedBuffer("我做完了非常耗时的操作2", CharsetUtil.UTF_8));
-            } catch (InterruptedException e) {
-                log.error(e.getMessage(), e);
-            }
-        });
-        ctx.channel().eventLoop().schedule(() -> {
-            try {
-                Thread.sleep(20 * 1000);
-                ctx.writeAndFlush(Unpooled.copiedBuffer("我做完了非常耗时的操作3", CharsetUtil.UTF_8));
-            } catch (InterruptedException e) {
-                log.error(e.getMessage(), e);
-            }
-        },5, TimeUnit.SECONDS);
-        // 将msg转成ByteBuf
         ByteBuf byteBuf = (ByteBuf) msg;
+        int readableBytes = byteBuf.readableBytes();
+        byte[] bytes = new byte[readableBytes];
+        log.info(byteBuf.toString(CharsetUtil.UTF_8));
+        byteBuf.getBytes(readableBytes, bytes);
+        log.info(Arrays.toString(bytes));
+        if (readableBytes < 20) {
+            return;
+        }
         log.info("client:[{}] send Message is {}", ctx.channel().remoteAddress(), byteBuf.toString(CharsetUtil.UTF_8));
     }
 
@@ -68,7 +50,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         // 一般讲 对发送的数据进行编码
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello client", CharsetUtil.UTF_8));
+//        ctx.writeAndFlush(Unpooled.copiedBuffer("hello client", CharsetUtil.UTF_8));
     }
 
     @Override
